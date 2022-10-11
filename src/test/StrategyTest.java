@@ -1,4 +1,3 @@
-import game.TestThread;
 import org.testng.annotations.Test;
 import strategy.*;
 
@@ -40,8 +39,9 @@ public class StrategyTest {
         long successes = 0;
         long totalTurns = 0;
         int totalGames = 10000;
+        int remainingGames = totalGames % threads;
 
-        System.out.println("Running with " + threads + " + threads because we have " + processors + " total processors available.");
+        System.out.println("Running with " + threads + " threads because we have " + processors + " total processors available.");
 
         TestThread[] threadList = new TestThread[threads];
 
@@ -55,6 +55,12 @@ public class StrategyTest {
             successes += threadList[x].successes;
             totalTurns += threadList[x].totalTurns;
         }
+
+        TestThread remainderThread = new TestThread(remainingGames, strategy);
+        remainderThread.start();
+        remainderThread.join();
+        successes += remainderThread.successes;
+        totalTurns += remainderThread.totalTurns;
 
         System.out.println("Strategy " + strategy.getClass().getSimpleName());
         System.out.println("Ran " + totalGames + " games, we had a " + (successes * 100 / totalGames) + "% success rate.");

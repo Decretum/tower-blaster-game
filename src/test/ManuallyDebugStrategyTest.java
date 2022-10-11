@@ -17,10 +17,10 @@ public class ManuallyDebugStrategyTest {
         while (!winner && turn < 50) {
             if (turn % 2 == 0) {
                 towerBlaster.computerTurn(/* handNumber=*/ 1);
-                // We only care if player 1 has won
                 winner = towerBlaster.hasWon(/* handNumber=*/ 1);
             } else {
                 towerBlaster.computerTurn(/* handNumber=*/ 2);
+                winner = towerBlaster.hasWon(/* handNumber=*/ 2);
             }
             turn++;
         }

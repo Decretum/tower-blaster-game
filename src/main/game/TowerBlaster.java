@@ -5,7 +5,6 @@ import strategy.Strategy4;
 import strategy.TurnAction;
 
 import javax.swing.*;
-import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +20,20 @@ public class TowerBlaster {
     private int[] hand2;
     private boolean silenceLogging;
 
-    private final Strategy computerPlayerStrategy;
+    private final Strategy computerPlayer1Strategy;
+    private final Strategy computerPlayer2Strategy;
 
     public TowerBlaster() {
         this(new Strategy4());
     }
 
     public TowerBlaster(Strategy computerPlayerStrategy) {
-        this.computerPlayerStrategy = computerPlayerStrategy;
+        this(computerPlayerStrategy, computerPlayerStrategy);
+    }
+
+    public TowerBlaster(Strategy strategy1, Strategy strategy2) {
+        computerPlayer1Strategy = strategy1;
+        computerPlayer2Strategy = strategy2;
         silenceLogging = false;
     }
 
@@ -82,6 +87,7 @@ public class TowerBlaster {
         }
     }
 
+    // handNumber is the player number (1 or 2)
     public void computerTurn(int handNumber) {
         int[] hand = getHand(handNumber);
 
@@ -89,7 +95,13 @@ public class TowerBlaster {
         log("Computer turn");
         visualize(hand);
 
-        TurnAction turnAction = computerPlayerStrategy.decideAction(discard.peek(), deck.peek(), hand);
+        TurnAction turnAction;
+
+        if (handNumber == 1) {
+            turnAction = computerPlayer1Strategy.decideAction(discard.peek(), deck.peek(), hand);
+        } else {
+            turnAction = computerPlayer2Strategy.decideAction(discard.peek(), deck.peek(), hand);
+        }
 
         int block;
 
