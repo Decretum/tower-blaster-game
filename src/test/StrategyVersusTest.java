@@ -24,6 +24,9 @@ public class StrategyVersusTest {
         int totalGames = 10000;
         int remainingGames = totalGames % threads;
 
+        if (threads < 1) {
+            threads = 1;
+        }
 
         TestThread[] threadList = new TestThread[threads];
 

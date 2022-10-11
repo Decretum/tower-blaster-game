@@ -41,6 +41,10 @@ public class StrategyTest {
         int totalGames = 10000;
         int remainingGames = totalGames % threads;
 
+        if (threads < 1) {
+            threads = 1;
+        }
+
         System.out.println("Running with " + threads + " threads because we have " + processors + " total processors available.");
 
         TestThread[] threadList = new TestThread[threads];
